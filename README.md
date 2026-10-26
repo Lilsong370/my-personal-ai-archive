@@ -3,6 +3,10 @@
 > 把「我是谁、我怎么工作、我做过什么、我要往哪走」写成一份**任何 AI 都能直接读**的档案。
 > 换模型、换电脑、换账号，只要一个链接，AI 就能立刻「认识你」，不用每次重新自我介绍。
 
+**仓库**：https://github.com/Lilsong370/my-personal-ai-archive
+
+> 第一次使用前，先把各模块里的 `<填写：...>` 换成你自己的内容。Actions 会每天提醒还剩几处没填。
+
 ---
 
 ## 30 秒上手
@@ -11,7 +15,7 @@
 
 ```text
 请先读取这个文件，并把它作为我的个人背景档案：
-https://raw.githubusercontent.com/<你的GitHub用户名>/my-personal-ai-archive/main/ai-context-pack.md
+https://raw.githubusercontent.com/Lilsong370/my-personal-ai-archive/main/ai-context-pack.md
 
 读完不要复述全文。之后所有回答都基于这份档案，
 并在回答开头用一行标注「档案已加载」。

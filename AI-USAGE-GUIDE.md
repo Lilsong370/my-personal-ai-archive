@@ -9,10 +9,10 @@
 
 ```text
 # 精简版（日常对话用，约 1 屏）
-https://raw.githubusercontent.com/<用户名>/my-personal-ai-archive/main/ai-context-pack.md
+https://raw.githubusercontent.com/Lilsong370/my-personal-ai-archive/main/ai-context-pack.md
 
 # 完整指令版（配置自定义指令用）
-https://raw.githubusercontent.com/<用户名>/my-personal-ai-archive/main/05-custom-instructions.md
+https://raw.githubusercontent.com/Lilsong370/my-personal-ai-archive/main/05-custom-instructions.md
 ```
 
 > `raw.githubusercontent.com` 是纯文本，AI 抓取最稳。
@@ -79,7 +79,7 @@ AGENTS.md                        # 通用 Agent 约定
 ```python
 import requests
 
-PROFILE_URL = "https://raw.githubusercontent.com/<用户名>/my-personal-ai-archive/main/ai-context-pack.md"
+PROFILE_URL = "https://raw.githubusercontent.com/Lilsong370/my-personal-ai-archive/main/ai-context-pack.md"
 profile = requests.get(PROFILE_URL, timeout=10).text
 
 messages = [

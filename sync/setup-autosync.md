@@ -17,7 +17,7 @@
 2. 克隆仓库到本地：
 
 ```powershell
-git clone https://github.com/<用户名>/my-personal-ai-archive.git $env:USERPROFILE\my-personal-ai-archive
+git clone https://github.com/Lilsong370/my-personal-ai-archive.git $env:USERPROFILE\my-personal-ai-archive
 cd $env:USERPROFILE\my-personal-ai-archive
 ```
 
@@ -71,7 +71,7 @@ git push
 1. 新建快捷指令，加三个动作：
    - 「获取剪贴板」
    - 「获取 URL 内容」，方法 POST
-     - URL：`https://api.github.com/repos/<用户名>/my-personal-ai-archive/contents/sync/inbox/quick-capture.md`
+     - URL：`https://api.github.com/repos/Lilsong370/my-personal-ai-archive/contents/sync/inbox/quick-capture.md`
      - 请求头：`Authorization: Bearer <你的 fine-grained PAT>`、`Accept: application/vnd.github+json`
      - 请求体 JSON：`{"message":"capture from iOS","content":"<base64 编码的剪贴板>"}`
    - 「显示结果」
@@ -83,7 +83,7 @@ git push
 在仓库 Settings → Secrets 里配一个 `SYNC_WEBHOOK_TOKEN`，然后用任何支持 webhook 的工具（Zapier、n8n、飞书机器人、iOS 快捷指令）向 `repository_dispatch` 发事件：
 
 ```bash
-curl -X POST https://api.github.com/repos/<用户名>/my-personal-ai-archive/dispatches \
+curl -X POST https://api.github.com/repos/Lilsong370/my-personal-ai-archive/dispatches \
   -H "Authorization: Bearer <PAT>" \
   -H "Accept: application/vnd.github+json" \
   -d '{"event_type":"capture","client_payload":{"text":"要存的内容","tag":"claude"}}'

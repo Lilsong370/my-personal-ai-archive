@@ -1,7 +1,7 @@
 name: Capture
 
 # 任何外部工具 POST 到 repository_dispatch 即可把内容写进收件箱
-# curl -X POST https://api.github.com/repos/<owner>/<repo>/dispatches \
+# curl -X POST https://api.github.com/repos/Lilsong370/my-personal-ai-archive/dispatches \
 #   -H "Authorization: Bearer <PAT>" -H "Accept: application/vnd.github+json" \
 #   -d '{"event_type":"capture","client_payload":{"text":"内容","tag":"claude"}}'
 

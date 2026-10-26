@@ -10,7 +10,7 @@
 ```text
 【关于我】
 我是 <职业>，主要做 <主线>。我的完整档案在：
-https://raw.githubusercontent.com/<用户名>/my-personal-ai-archive/main/ai-context-pack.md
+https://raw.githubusercontent.com/Lilsong370/my-personal-ai-archive/main/ai-context-pack.md
 如果能联网读取，请先读它；读不到就按下面的规则回答，不要反复问我同样的问题。
 
 【回答风格】
