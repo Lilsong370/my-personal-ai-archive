@@ -15,11 +15,14 @@
 
 ```text
 请先读取这个文件，并把它作为我的个人背景档案：
-https://raw.githubusercontent.com/Lilsong370/my-personal-ai-archive/main/ai-context-pack.md
+https://cdn.jsdelivr.net/gh/Lilsong370/my-personal-ai-archive@main/ai-context-pack.md
 
 读完不要复述全文。之后所有回答都基于这份档案，
 并在回答开头用一行标注「档案已加载」。
 ```
+
+> 用 jsDelivr 的 CDN 地址，不要用 `raw.githubusercontent.com`——国内经常读不到。
+> 如果还是失败，见 [MIRRORS.md](MIRRORS.md) 里的备用地址，或直接把文件内容整段粘贴过去。
 
 如果需要完整细节（而不只是精简包），把 `ai-context-pack.md` 换成 `README.md` 或具体模块文件。
 
@@ -37,6 +40,7 @@ https://raw.githubusercontent.com/Lilsong370/my-personal-ai-archive/main/ai-cont
 | `04-learning.md` | 持续学习与成长：学习计划、阅读清单、思考笔记 | 让 AI 帮你排学习节奏、做知识串联 |
 | `05-custom-instructions.md` | 自定义指令：AI 协作规则、输出要求、避坑提醒 | 直接粘进各工具的 Custom Instructions |
 | `AI-USAGE-GUIDE.md` | 各 AI 工具的具体调用方法 | 第一次配置时看 |
+| `MIRRORS.md` | 国内可用的镜像地址（raw 域名被墙时用） | 链接读不到时看 |
 | `sync/` | 自动同步脚本与方案 | 想「一处更新，处处生效」时看 |
 | `.github/workflows/` | 仓库自动化：结构校验、每日体检 | 不用管，配好就自动跑 |
 

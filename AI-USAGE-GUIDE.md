@@ -3,20 +3,27 @@
 > 核心思路只有一条：**档案放在公网可读的固定链接上，任何 AI 只要能读网页，就能「认识你」。**
 > 读不了网页的工具，就用「粘贴一次 + 长期保存」的方式落地。
 
-## 先拿到你的 raw 链接
+## 先拿到你的链接
 
-仓库建好后，两个链接是关键：
+仓库建好后，下面这几个地址是关键（**优先用 CDN，不要用 raw 域名**）：
 
 ```text
-# 精简版（日常对话用，约 1 屏）
-https://raw.githubusercontent.com/Lilsong370/my-personal-ai-archive/main/ai-context-pack.md
+# 主推荐 · jsDelivr CDN（国内可直连）
+https://cdn.jsdelivr.net/gh/Lilsong370/my-personal-ai-archive@main/ai-context-pack.md
+https://cdn.jsdelivr.net/gh/Lilsong370/my-personal-ai-archive@main/05-custom-instructions.md
 
-# 完整指令版（配置自定义指令用）
-https://raw.githubusercontent.com/Lilsong370/my-personal-ai-archive/main/05-custom-instructions.md
+# 备用 · gh-proxy（实时转发，无缓存）
+https://gh-proxy.com/https://raw.githubusercontent.com/Lilsong370/my-personal-ai-archive/main/ai-context-pack.md
+
+# 备用 · GitHub 网页版
+https://github.com/Lilsong370/my-personal-ai-archive/blob/main/ai-context-pack.md
+
+# 原始地址（国内经常读不到，勿作首选）
+https://raw.githubusercontent.com/Lilsong370/my-personal-ai-archive/main/ai-context-pack.md
 ```
 
-> `raw.githubusercontent.com` 是纯文本，AI 抓取最稳。
-> 浏览器打开如果是下载而不是显示，说明链接对；复制地址栏那条即可。
+> `raw.githubusercontent.com` 国内被污染是常态，这不是你配置错了。
+> 全部地址和实测情况见 [MIRRORS.md](MIRRORS.md)。
 
 ---
 
@@ -79,7 +86,7 @@ AGENTS.md                        # 通用 Agent 约定
 ```python
 import requests
 
-PROFILE_URL = "https://raw.githubusercontent.com/Lilsong370/my-personal-ai-archive/main/ai-context-pack.md"
+PROFILE_URL = "https://cdn.jsdelivr.net/gh/Lilsong370/my-personal-ai-archive@main/ai-context-pack.md"
 profile = requests.get(PROFILE_URL, timeout=10).text
 
 messages = [
