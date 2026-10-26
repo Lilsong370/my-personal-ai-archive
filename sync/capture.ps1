@@ -1,24 +1,27 @@
-# 把一段 AI 输出快速沉淀到今天的收件箱，并同步到 GitHub
+# 把一段 AI 输出归档到 journal/，并同步到 GitHub
 # 用法：
-#   .\capture.ps1 -Text "内容"                     # 直接写内容
-#   .\capture.ps1 -Text "内容" -Tag claude          # 打标签
-#   Get-Clipboard | .\capture.ps1 -Tag chatgpt      # 直接读剪贴板
-#   .\capture.ps1 -Text "内容" -NoSync              # 只写文件，不推送
+#   .\capture.ps1 -Text "内容"                       # 直接写内容
+#   .\capture.ps1 -Text "内容" -Tag claude -Title "周报模板"
+#   Get-Clipboard | .\capture.ps1 -Tag chatgpt       # 读剪贴板
+#   .\capture.ps1 -Text "内容" -NoSync               # 只写文件，不推送
 param(
     [Parameter(ValueFromPipeline = $true)]
     [string]$Text,
 
     [string]$Tag = "ai",
 
+    [string]$Title = "",
+
     [switch]$NoSync
 )
 
 $ErrorActionPreference = "Stop"
 $RepoRoot = Split-Path -Parent $PSScriptRoot
-$InboxDir = Join-Path $RepoRoot "sync\inbox"
+$now = Get-Date
 
-if (-not (Test-Path $InboxDir)) {
-    New-Item -ItemType Directory -Path $InboxDir -Force | Out-Null
+$dir = Join-Path $RepoRoot ("journal\" + $now.ToString("yyyy-MM"))
+if (-not (Test-Path $dir)) {
+    New-Item -ItemType Directory -Path $dir -Force | Out-Null
 }
 
 if (-not $Text) {
@@ -28,25 +31,19 @@ if (-not $Text -or $Text.Trim().Length -eq 0) {
     throw "没有内容可写入（-Text 为空，且剪贴板也是空的）"
 }
 
-$date = Get-Date -Format "yyyy-MM-dd"
-$time = Get-Date -Format "HH:mm"
-$file = Join-Path $InboxDir "$date.md"
-
+$file = Join-Path $dir ($now.ToString("yyyy-MM-dd") + ".md")
 if (-not (Test-Path $file)) {
-    Set-Content -Path $file -Value "# $date · 收件箱`n" -Encoding utf8
+    Set-Content -Path $file -Value ("# " + $now.ToString("yyyy-MM-dd") + " · 对话记录`n") -Encoding utf8
 }
 
-$block = @"
+$head = "## " + $now.ToString("HH:mm") + " · " + $Tag
+if ($Title) { $head = $head + " · " + $Title }
 
-## $time [$Tag]
-
-$($Text.Trim())
-
-"@
-
+$block = "`n" + $head + "`n`n" + $Text.Trim() + "`n"
 Add-Content -Path $file -Value $block -Encoding utf8
-Write-Host "已写入：sync\inbox\$date.md" -ForegroundColor Cyan
+
+Write-Host ("已写入 journal\" + $now.ToString("yyyy-MM") + "\" + $now.ToString("yyyy-MM-dd") + ".md") -ForegroundColor Cyan
 
 if (-not $NoSync) {
-    & (Join-Path $PSScriptRoot "sync.ps1") -Message "capture($Tag): $date $time"
+    & (Join-Path $PSScriptRoot "sync.ps1") -Message ("archive(" + $Tag + "): " + $now.ToString("yyyy-MM-dd HH:mm"))
 }

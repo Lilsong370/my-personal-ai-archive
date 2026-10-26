@@ -41,7 +41,8 @@ https://cdn.jsdelivr.net/gh/Lilsong370/my-personal-ai-archive@main/ai-context-pa
 | `05-custom-instructions.md` | 自定义指令：AI 协作规则、输出要求、避坑提醒 | 直接粘进各工具的 Custom Instructions |
 | `AI-USAGE-GUIDE.md` | 各 AI 工具的具体调用方法 | 第一次配置时看 |
 | `MIRRORS.md` | 国内可用的镜像地址（raw 域名被墙时用） | 链接读不到时看 |
-| `sync/` | 自动同步脚本与方案 | 想「一处更新，处处生效」时看 |
+| `journal/` | 和 AI 的对话记录，按月按天归档 | 想存下「聊出来的东西」时 |
+| `sync/` | 回流脚本与方案（capture / sync / 导出导入） | 想把记录自动推回 GitHub 时 |
 | `.github/workflows/` | 仓库自动化：结构校验、每日体检 | 不用管，配好就自动跑 |
 
 ---
@@ -58,8 +59,8 @@ https://cdn.jsdelivr.net/gh/Lilsong370/my-personal-ai-archive@main/ai-context-pa
 
 ## 维护节奏
 
-- 每周五 10 分钟：把本周 AI 对话里的有效结论写进 `sync/inbox/`，运行一次 `sync/sync.ps1`。
-- 每月最后一天：把 inbox 里的碎片提炼进对应模块，清空 inbox。
+- 每周五 10 分钟：把本周 AI 对话里的有效结论写进 `journal/`，运行一次 `sync/sync.ps1`。
+- 每月最后一天：把 journal 里的碎片提炼进对应模块，不必删除原料。
 - 每季度：重读 `03-experience.md` 和 `04-learning.md`，删掉过期的野心，留下真正的教训。
 
 ---
