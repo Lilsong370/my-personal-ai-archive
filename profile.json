@@ -1,56 +1,128 @@
 {
-  "schema_version": "1.0",
-  "updated_at": "YYYY-MM-DD",
+  "schema_version": "1.1",
+  "updated_at": "2026-10-26",
   "identity": {
-    "name": "",
-    "preferred_name": "",
-    "role": "",
-    "location": "",
+    "name": "小珂",
+    "preferred_name": "小珂",
+    "role": "客服（多业态商配客服 + MLHS 运营支持）",
+    "location": "杭州",
     "timezone": "Asia/Shanghai",
-    "one_liner": "",
-    "current_focus": ""
+    "one_liner": "把零散的咨询、评价、销售数据，理成能直接用的东西",
+    "current_focus": "7 个业态的日常客服、评价、销售统计与排餐；MLHS 数据与报损"
   },
   "skills": {
-    "primary": [],
-    "secondary": [],
-    "learning": []
+    "primary": [
+      "Excel 数据统计与报表",
+      "Word 排版",
+      "PPT 汇报",
+      "Photoshop",
+      "CorelDRAW",
+      "视频剪辑"
+    ],
+    "secondary": [
+      "多线程事务处理",
+      "跨门店沟通",
+      "多业态数据口径维护"
+    ],
+    "learning": [
+      "英语（客诉场景）",
+      "韩语（待启动）",
+      "日语（待启动）"
+    ]
   },
   "communication": {
     "tone": "direct",
     "language": "zh-CN",
     "answer_shape": "conclusion_first",
     "max_daily_reply_lines": 5,
+    "max_plan_words": 250,
+    "ask_before_over": 400,
     "prefer_flat_lists": true,
-    "avoid_tables_on_mobile": true,
+    "tables_only_for_data": true,
     "avoid_filler_openings": true,
     "avoid_summary_paragraphs": true,
     "show_reasoning_unless_asked": false,
-    "uncertainty_policy": "state_uncertainty_and_verify"
+    "uncertainty_policy": "state_uncertainty_and_verify",
+    "banned_phrases": [
+      "当然可以",
+      "希望对你有帮助",
+      "首先/其次/最后",
+      "在这个快节奏的时代"
+    ]
   },
   "collaboration": {
     "when_user_has_plan": "execute_directly",
     "when_user_is_confused": "restate_then_split_into_3",
-    "when_learning": "analogy_then_minimal_example",
+    "when_learning": "scene_based_5_to_8_sentences",
     "when_deciding": "options_plus_cost_plus_lean",
     "long_task_progress_updates": true
   },
   "constraints": {
     "must_not": [
-      "fabricate_experience_or_data",
+      "fabricate_numbers_or_store_names",
       "give_vague_advice_without_action",
-      "repeat_confirmations"
+      "repeat_confirmations",
+      "output_walls_of_text"
     ]
   },
-  "projects": [],
-  "methods": [],
-  "pitfalls": [],
+  "schedule": {
+    "daily": [
+      "回复客户咨询（日均约 50 人）",
+      "处理退款、售后、跟进差评并联系店长",
+      "回复各业态评价（日均约 40 条）",
+      "统计各业态日销售额",
+      "各业态排餐",
+      "MLHS 销售明细与后台咨询"
+    ],
+    "weekly": [
+      "周五 10:00 前：上海面包周数据 → 洪珊",
+      "周五：广州客诉整理 → 广州群",
+      "MLHS 周报损"
+    ],
+    "monthly": [
+      "工作日第一天：上海月数据 → 洪珊",
+      "月初：广州数据 → 吴玉敏",
+      "月初：广州面包支付宝金额",
+      "清豆前：面包备货建议",
+      "MLHS 月报损"
+    ]
+  },
+  "projects": [
+    {
+      "name": "多业态客服与日数据中枢",
+      "role": "独立负责",
+      "scale": "7 个业态；日均约 50 人咨询、约 40 条评价",
+      "reusable": "先定口径再填数；清单化不靠记忆"
+    },
+    {
+      "name": "MLHS 数据与客户支持",
+      "role": "独立负责",
+      "scale": "每日销售明细与销售额、后台咨询、周月报损",
+      "reusable": "日报不断档优先于日报精美"
+    }
+  ],
+  "methods": [
+    "清单先行",
+    "口径统一",
+    "先止血再复盘"
+  ],
+  "boundaries": {
+    "not_good_at": ["编程", "数据分析建模", "外语（入门中）"],
+    "not_willing": ["无明确责任人的长期项目"],
+    "needs_others": ["财务口径", "人事招聘决策", "对外合同"]
+  },
   "learning": {
-    "goal_6m": "",
-    "in_progress": [],
+    "goal_6m": "英语能不看翻译处理客诉邮件和消息",
+    "in_progress": ["英语·客诉场景（每周 3 小时）"],
     "reading": []
+  },
+  "contact": {
+    "email": "lilsong370@gmail.com",
+    "github": "https://github.com/Lilsong370"
   },
   "links": {
     "context_pack": "ai-context-pack.md",
+    "context_pack_cdn": "https://cdn.jsdelivr.net/gh/Lilsong370/my-personal-ai-archive@main/ai-context-pack.md",
     "full_profile": "README.md",
     "instructions": "05-custom-instructions.md"
   }
