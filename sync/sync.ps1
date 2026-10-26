@@ -12,31 +12,58 @@ $ErrorActionPreference = "Stop"
 $RepoRoot = Split-Path -Parent $PSScriptRoot
 Set-Location $RepoRoot
 
-if (-not (Test-Path (Join-Path $RepoRoot ".git"))) {
-    throw "当前位置不是 Git 仓库：$RepoRoot（先确认已 git clone 并 cd 进仓库）"
+# 定时任务里没有交互窗口：凭据缺失时立刻失败，而不是弹窗卡死
+$env:GIT_TERMINAL_PROMPT = "0"
+
+$LogDir = Join-Path $env:LOCALAPPDATA "PersonalAIArchive"
+if (-not (Test-Path $LogDir)) { New-Item -ItemType Directory -Path $LogDir -Force | Out-Null }
+$LogFile = Join-Path $LogDir "sync.log"
+
+function Write-Log([string]$Level, [string]$Text) {
+    $line = "{0} [{1}] {2}" -f (Get-Date -Format "yyyy-MM-dd HH:mm:ss"), $Level, $Text
+    Add-Content -Path $LogFile -Value $line -Encoding utf8
 }
 
-if (-not $Message) {
-    $Message = "chore: sync " + (Get-Date -Format "yyyy-MM-dd HH:mm")
+try {
+    if (-not (Test-Path (Join-Path $RepoRoot ".git"))) {
+        throw "当前位置不是 Git 仓库：$RepoRoot（先确认已 git clone 并 cd 进仓库）"
+    }
+
+    if (-not $Message) {
+        $Message = "chore: sync " + (Get-Date -Format "yyyy-MM-dd HH:mm")
+    }
+
+    git add -A
+
+    $staged = git diff --cached --name-only
+    if (-not $staged) {
+        Write-Host "没有变更，跳过同步。" -ForegroundColor DarkGray
+        Write-Log "INFO" "无变更"
+        exit 0
+    }
+
+    $count = ($staged | Measure-Object).Count
+    Write-Host "将提交 $count 个文件：" -ForegroundColor Cyan
+    $staged | ForEach-Object { Write-Host "  $_" }
+
+    if ($DryRun) {
+        Write-Host "DryRun：未提交。" -ForegroundColor Yellow
+        exit 0
+    }
+
+    git commit -m $Message | Out-Null
+    git pull --rebase --autostash 2>&1 | Out-Null
+
+    $pushOut = git push 2>&1
+    if ($LASTEXITCODE -ne 0) {
+        throw "git push 失败：$pushOut"
+    }
+
+    Write-Host "已同步：$Message" -ForegroundColor Green
+    Write-Log "OK" "$Message（$count 个文件）"
 }
-
-git add -A
-
-$staged = git diff --cached --name-only
-if (-not $staged) {
-    Write-Host "没有变更，跳过同步。" -ForegroundColor DarkGray
-    exit 0
+catch {
+    Write-Host "同步失败：$($_.Exception.Message)" -ForegroundColor Red
+    Write-Log "ERROR" $_.Exception.Message
+    exit 1
 }
-
-Write-Host "将提交以下文件：" -ForegroundColor Cyan
-$staged | ForEach-Object { Write-Host "  $_" }
-
-if ($DryRun) {
-    Write-Host "DryRun：未提交。" -ForegroundColor Yellow
-    exit 0
-}
-
-git commit -m $Message | Out-Null
-git pull --rebase --autostash
-git push
-Write-Host "已同步：$Message" -ForegroundColor Green

@@ -34,21 +34,31 @@ python sync\archive-chat.py --file note.md --tag gemini --title "外语句型"
 
 ---
 
-## 方案 B：定时批量同步（无人值守）
+## 方案 B：定时批量同步（已配置好）
 
-适合「我先丢一堆，晚上统一推」。
+**当前状态：已创建计划任务 `PersonalAIArchive-Sync`，每天 22:00 自动运行。**
 
-### Windows 任务计划程序
+脚本自带「无变更就跳过」，不会产生空提交；失败会写日志，不会弹窗卡死。
 
-1. 打开「任务计划程序」→ 创建基本任务。
-2. 触发器：每天 22:00 + 登录时。
-3. 操作：启动程序
-   - 程序：`powershell.exe`
-   - 参数：`-NoProfile -ExecutionPolicy Bypass -File "C:\Users\<你>\my-personal-ai-archive\sync\sync.ps1" -Message "auto sync"`
-   - 起始于：`C:\Users\<你>\my-personal-ai-archive`
-4. 取消勾选「仅在交流电源时运行」。
+- 日志位置：`%LOCALAPPDATA%\PersonalAIArchive\sync.log`
+- 查看任务：`Get-ScheduledTask -TaskName "PersonalAIArchive-Sync"`
+- 手动触发一次：`Start-ScheduledTask -TaskName "PersonalAIArchive-Sync"`
+- 暂时停用：`Disable-ScheduledTask -TaskName "PersonalAIArchive-Sync"`
+- 彻底删除：`Unregister-ScheduledTask -TaskName "PersonalAIArchive-Sync" -Confirm:$false`
 
-脚本自带「无变更就跳过」，不会产生空提交。
+### 换电脑后重新创建
+
+```powershell
+$root = "<仓库本地路径>"
+$action = New-ScheduledTaskAction -Execute "powershell.exe" `
+  -Argument ('-NoProfile -ExecutionPolicy Bypass -File "' + $root + '\sync\sync.ps1" -Message "auto sync"') `
+  -WorkingDirectory $root
+$trigger = New-ScheduledTaskTrigger -Daily -At "22:00"
+$settings = New-ScheduledTaskSettingsSet -StartWhenAvailable -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -ExecutionTimeLimit (New-TimeSpan -Minutes 15)
+Register-ScheduledTask -TaskName "PersonalAIArchive-Sync" -Action $action -Trigger $trigger -Settings $settings -Force
+```
+
+`-StartWhenAvailable` 是关键：22:00 电脑关着，开机后会自动补跑一次。
 
 ---
 
