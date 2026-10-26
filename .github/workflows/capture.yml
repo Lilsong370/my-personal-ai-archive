@@ -1,0 +1,58 @@
+name: Capture
+
+# 任何外部工具 POST 到 repository_dispatch 即可把内容写进收件箱
+# curl -X POST https://api.github.com/repos/<owner>/<repo>/dispatches \
+#   -H "Authorization: Bearer <PAT>" -H "Accept: application/vnd.github+json" \
+#   -d '{"event_type":"capture","client_payload":{"text":"内容","tag":"claude"}}'
+
+on:
+  repository_dispatch:
+    types: [capture]
+
+permissions:
+  contents: write
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Append to inbox
+        uses: actions/github-script@v7
+        env:
+          TEXT: ${{ github.event.client_payload.text }}
+          TAG: ${{ github.event.client_payload.tag }}
+        with:
+          script: |
+            const fs = require('fs');
+            const text = (process.env.TEXT || '').trim();
+            const tag = (process.env.TAG || 'external').trim();
+            if (!text) {
+              core.setFailed('client_payload.text 为空');
+              return;
+            }
+            const now = new Date();
+            const [date, time] = now
+              .toLocaleString('sv-SE', { timeZone: 'Asia/Shanghai' })
+              .split(' ')
+              .map(s => s.trim());
+            const hhmm = time.slice(0, 5);
+            const dir = 'sync/inbox';
+            fs.mkdirSync(dir, { recursive: true });
+            const file = `${dir}/${date}.md`;
+            if (!fs.existsSync(file)) fs.writeFileSync(file, `# ${date} · 收件箱\n`, 'utf8');
+            fs.appendFileSync(file, `\n## ${hhmm} [${tag}]\n\n${text}\n\n`, 'utf8');
+            core.setOutput('file', file);
+
+      - name: Commit
+        run: |
+          git config user.name "archive-bot"
+          git config user.email "archive-bot@users.noreply.github.com"
+          git add sync/inbox
+          if git diff --cached --quiet; then
+            echo "无变更"
+          else
+            git commit -m "capture(external): $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+            git push
+          fi

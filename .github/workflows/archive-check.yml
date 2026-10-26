@@ -1,0 +1,57 @@
+name: Archive Check
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 1 * * *" # 每天 09:00 (UTC+8)
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  structure:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Required files exist
+        run: |
+          set -e
+          missing=0
+          for f in README.md ai-context-pack.md profile.json \
+                   01-basic-info.md 02-work-style.md \
+                   03-experience.md 04-learning.md \
+                   05-custom-instructions.md AI-USAGE-GUIDE.md; do
+            if [ ! -f "$f" ]; then
+              echo "::error file=$f::缺少必需文件 $f"
+              missing=1
+            fi
+          done
+          exit $missing
+
+      - name: profile.json is valid JSON
+        run: |
+          python3 -c "import json,sys; json.load(open('profile.json', encoding='utf-8')); print('profile.json OK')"
+
+      - name: No obvious secrets committed
+        run: |
+          set +e
+          hits=$(grep -rInE "ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}" \
+                 --include="*.md" --include="*.json" --include="*.ps1" \
+                 --exclude-dir=".github" --exclude-dir=".git" . )
+          if [ -n "$hits" ]; then
+            echo "::error::疑似密钥被提交："
+            echo "$hits"
+            exit 1
+          fi
+          echo "未发现疑似密钥"
+
+      - name: Report unfilled placeholders
+        run: |
+          count=$(grep -rIo "<填写[^>]*>" --include="*.md" . | wc -l)
+          echo "尚未填写的占位符：$count 处"
+          if [ "$count" -gt 0 ]; then
+            echo "::notice::还有 $count 处 <填写：...> 待补充"
+          fi

@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "updated_at": "YYYY-MM-DD",
+  "identity": {
+    "name": "",
+    "preferred_name": "",
+    "role": "",
+    "location": "",
+    "timezone": "Asia/Shanghai",
+    "one_liner": "",
+    "current_focus": ""
+  },
+  "skills": {
+    "primary": [],
+    "secondary": [],
+    "learning": []
+  },
+  "communication": {
+    "tone": "direct",
+    "language": "zh-CN",
+    "answer_shape": "conclusion_first",
+    "max_daily_reply_lines": 5,
+    "prefer_flat_lists": true,
+    "avoid_tables_on_mobile": true,
+    "avoid_filler_openings": true,
+    "avoid_summary_paragraphs": true,
+    "show_reasoning_unless_asked": false,
+    "uncertainty_policy": "state_uncertainty_and_verify"
+  },
+  "collaboration": {
+    "when_user_has_plan": "execute_directly",
+    "when_user_is_confused": "restate_then_split_into_3",
+    "when_learning": "analogy_then_minimal_example",
+    "when_deciding": "options_plus_cost_plus_lean",
+    "long_task_progress_updates": true
+  },
+  "constraints": {
+    "must_not": [
+      "fabricate_experience_or_data",
+      "give_vague_advice_without_action",
+      "repeat_confirmations"
+    ]
+  },
+  "projects": [],
+  "methods": [],
+  "pitfalls": [],
+  "learning": {
+    "goal_6m": "",
+    "in_progress": [],
+    "reading": []
+  },
+  "links": {
+    "context_pack": "ai-context-pack.md",
+    "full_profile": "README.md",
+    "instructions": "05-custom-instructions.md"
+  }
+}
