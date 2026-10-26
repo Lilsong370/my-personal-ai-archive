@@ -1,4 +1,4 @@
-# 把一段 AI 输出归档到 journal/，并同步到 GitHub
+﻿# 把一段 AI 输出归档到 journal/，并同步到 GitHub
 # 用法：
 #   .\capture.ps1 -Text "内容"                       # 直接写内容
 #   .\capture.ps1 -Text "内容" -Tag claude -Title "周报模板"
